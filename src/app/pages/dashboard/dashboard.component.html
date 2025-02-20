@@ -1,7 +1,10 @@
 <div class="dashboard-container">
-   <mat-toolbar color="primary">
-     <span>Dashboard</span>
-   </mat-toolbar>
+  <mat-toolbar color="primary">
+    <span>Dashboard</span>
+    <span class="spacer"></span>
+    <button mat-button (click)="logout()">Cerrar Sesión</button>
+  </mat-toolbar>
+  
    
    <div class="content">
      <!-- Componente para importar el archivo -->

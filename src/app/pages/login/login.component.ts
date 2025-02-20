@@ -13,11 +13,13 @@ export class LoginComponent {
   constructor(private router: Router) {}
 
   login() {
-    // Credenciales hardcodeadas: admin / admin
     if (this.username === 'admin' && this.password === 'admin') {
+      // Guardamos el estado de autenticación
+      localStorage.setItem('isLoggedIn', 'true');
       this.router.navigate(['/dashboard']);
     } else {
       alert('Credenciales incorrectas');
     }
   }
+  
 }

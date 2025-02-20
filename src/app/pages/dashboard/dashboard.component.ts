@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { EmailService } from '../../services/email.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +15,7 @@ export class DashboardComponent {
   message: string = '';
   displayedColumns: string[] = ['select', 'email']; // Agrega más columnas según tu necesidad
 
-  constructor(private emailService: EmailService) {}
+  constructor(private emailService: EmailService, private router: Router) {}
 
   handleFileUpload(records: any[]) {
     this.records = records;
@@ -43,5 +45,12 @@ export class DashboardComponent {
           alert('Error al enviar correos');
         }
       );
+  }
+
+  logout(): void {
+    // Remueve la variable de autenticación
+    localStorage.removeItem('isLoggedIn');
+    // Redirige al login
+    this.router.navigate(['/']);
   }
 }
