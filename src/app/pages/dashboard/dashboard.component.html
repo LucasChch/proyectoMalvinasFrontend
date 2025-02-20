@@ -1,0 +1,55 @@
+<div class="dashboard-container">
+   <mat-toolbar color="primary">
+     <span>Dashboard</span>
+   </mat-toolbar>
+   
+   <div class="content">
+     <!-- Componente para importar el archivo -->
+     <app-file-upload (fileUploaded)="handleFileUpload($event)"></app-file-upload>
+ 
+     <!-- Mostrar la tabla si existen registros -->
+     <mat-card *ngIf="records.length">
+       <mat-card-title>Registros Importados</mat-card-title>
+       
+       <table mat-table [dataSource]="records" class="mat-elevation-z8">
+         
+         <!-- Columna de Selección -->
+         <ng-container matColumnDef="select">
+           <th mat-header-cell *matHeaderCellDef>
+             <mat-checkbox [(ngModel)]="selectAll" (change)="toggleSelectAll()"></mat-checkbox>
+           </th>
+           <td mat-cell *matCellDef="let record">
+             <mat-checkbox [(ngModel)]="record.selected"></mat-checkbox>
+           </td>
+         </ng-container>
+         
+         <!-- Columna de Correo Electrónico -->
+         <ng-container matColumnDef="email">
+           <th mat-header-cell *matHeaderCellDef>Correo Electrónico</th>
+           <td mat-cell *matCellDef="let record"> {{ record['CORREO ELECTRONICO'] }} </td>
+         </ng-container>
+         
+         <!-- Agregá más columnas según lo requiera el Excel -->
+         
+         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+       </table>
+       
+       <!-- Formulario para enviar correos -->
+       <div class="email-form">
+         <mat-form-field appearance="fill" class="full-width">
+           <mat-label>Asunto</mat-label>
+           <input matInput [(ngModel)]="subject" />
+         </mat-form-field>
+         <mat-form-field appearance="fill" class="full-width">
+           <mat-label>Mensaje</mat-label>
+           <textarea matInput [(ngModel)]="message"></textarea>
+         </mat-form-field>
+         <div class="btn-container">
+           <button mat-raised-button color="accent" (click)="sendEmails()">Enviar Correos</button>
+         </div>
+       </div>
+     </mat-card>
+   </div>
+ </div>
+ 
