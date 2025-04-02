@@ -1,19 +1,42 @@
+/* Fondo celeste para toda la pantalla */
 .login-container {
-   display: flex;
-   height: 100vh;
-   align-items: center;
-   justify-content: center;
- }
- 
- .full-width {
-   width: 100%;
- }
- 
- .btn-container {
-   margin-top: 20px;
-   text-align: center;
- }
- #submit:hover{
-    background-color: #5681b3;
- }
- 
+  background-color: #74acdf; // Celeste
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tarjeta blanca con acento amarillo y sombra suave */
+mat-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #ffcc00; // Amarillo
+}
+
+/* Título en azul oscuro */
+mat-card-title {
+  font-size: 1.75rem;
+  color: #002868; // Azul oscuro
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Ajustes a los campos del formulario */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Botón de ingreso con fondo azul y texto blanco */
+button {
+  width: 100%;
+  background-color: #002868;
+  color: #ffffff;
+}
+
+button:hover {
+  background-color: #001f4d;
+}

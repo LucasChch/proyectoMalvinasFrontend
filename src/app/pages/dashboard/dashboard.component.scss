@@ -1,28 +1,46 @@
 .dashboard-container {
-   .content {
-     padding: 20px;
-   }
- 
-   table {
-     width: 100%;
-     margin-top: 20px;
-   }
- 
-   .full-width {
-     width: 100%;
-   }
- 
-   .btn-container {
-     margin-top: 20px;
-     text-align: center;
-   }
- 
-   .email-form {
-     margin-top: 20px;
-   }
-   
-   .spacer {
+  /* Barra de herramientas en azul oscuro */
+  .mat-toolbar {
+    background-color: #002868;
+    color: #ffffff;
+  }
+  .spacer {
     flex: 1 1 auto;
   }
- }
- 
+  
+  /* Contenido con fondo gris muy claro para resaltar las tarjetas */
+  .content {
+    padding: 2rem;
+    background: #f7f7f7;
+    min-height: calc(100vh - 64px);
+  }
+
+  /* Tarjetas blancas con sombra y bordes redondeados */
+  mat-card {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos para la tabla de registros */
+  table {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Formulario para enviar correos */
+  .email-form {
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    
+    /* Botón con acento amarillo y texto en azul oscuro */
+    button {
+      background-color: #ffcc00;
+      color: #002868;
+    }
+  }
+}

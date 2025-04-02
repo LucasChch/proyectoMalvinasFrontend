@@ -4,55 +4,74 @@
     <span class="spacer"></span>
     <button mat-button (click)="logout()">Cerrar Sesión</button>
   </mat-toolbar>
-  
-   
-   <div class="content">
-     <!-- Componente para importar el archivo -->
-     <app-file-upload (fileUploaded)="handleFileUpload($event)"></app-file-upload>
- 
-     <!-- Mostrar la tabla si existen registros -->
-     <mat-card *ngIf="records.length">
-       <mat-card-title>Registros Importados</mat-card-title>
-       
-       <table mat-table [dataSource]="records" class="mat-elevation-z8">
-         
-         <!-- Columna de Selección -->
-         <ng-container matColumnDef="select">
-           <th mat-header-cell *matHeaderCellDef>
-             <mat-checkbox [(ngModel)]="selectAll" (change)="toggleSelectAll()"></mat-checkbox>
-           </th>
-           <td mat-cell *matCellDef="let record">
-             <mat-checkbox [(ngModel)]="record.selected"></mat-checkbox>
-           </td>
-         </ng-container>
-         
-         <!-- Columna de Correo Electrónico -->
-         <ng-container matColumnDef="email">
-           <th mat-header-cell *matHeaderCellDef>Correo Electrónico</th>
-           <td mat-cell *matCellDef="let record"> {{ record['CORREO ELECTRONICO'] }} </td>
-         </ng-container>
-         
-         <!-- Agregá más columnas según lo requiera el Excel -->
-         
-         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-       </table>
-       
-       <!-- Formulario para enviar correos -->
-       <div class="email-form">
-         <mat-form-field appearance="fill" class="full-width">
-           <mat-label>Asunto</mat-label>
-           <input matInput [(ngModel)]="subject" />
-         </mat-form-field>
-         <mat-form-field appearance="fill" class="full-width">
-           <mat-label>Mensaje</mat-label>
-           <textarea matInput [(ngModel)]="message"></textarea>
-         </mat-form-field>
-         <div class="btn-container">
-           <button mat-raised-button color="accent" (click)="sendEmails()">Enviar Correos</button>
-         </div>
-       </div>
-     </mat-card>
-   </div>
- </div>
- 
+
+
+  <div class="content">
+    <!-- Componente para importar el archivo -->
+    <app-file-upload (fileUploaded)="handleFileUpload($event)"></app-file-upload>
+
+    <!-- Mostrar la tabla si existen registros -->
+    <mat-card *ngIf="records.length">
+      <mat-card-title>Registros Importados</mat-card-title>
+
+      <table mat-table [dataSource]="records" class="mat-elevation-z8">
+
+        <!-- Columna de Selección -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox [(ngModel)]="selectAll" (change)="toggleSelectAll()"></mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let record">
+            <mat-checkbox [(ngModel)]="record.selected"></mat-checkbox>
+          </td>
+        </ng-container>
+        <!-- Columna de Apellido y Nombre -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Apellido y Nombre</th>
+          <td mat-cell *matCellDef="let record"> {{ record['APELLIDO Y NOMBRE'] }} </td>
+        </ng-container>
+        <!-- Columna de Correo Electrónico -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Correo Electrónico</th>
+          <td mat-cell *matCellDef="let record"> {{ record['CORREO ELECTRONICO'] }} </td>
+        </ng-container>
+
+        <!-- Columna de Provincia y organismo -->
+        <ng-container matColumnDef="organism">
+          <th mat-header-cell *matHeaderCellDef>Provincia / Organismo</th>
+          <td mat-cell *matCellDef="let record"> {{ record['PROVINCIA / ORGANISMO'] }} </td>
+        </ng-container>
+
+        <!-- Agregá más columnas según lo requiera el Excel -->
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <!-- Formulario para enviar correos -->
+      <div class="email-form">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Asunto</mat-label>
+          <input matInput [(ngModel)]="subject" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Mensaje</mat-label>
+          <textarea matInput [(ngModel)]="message"></textarea>
+        </mat-form-field>
+
+        <!-- Input para seleccionar el archivo PDF -->
+        <mat-card>
+          <mat-card-title>Importar Archivo Excel</mat-card-title>
+          <mat-card-content>
+            <!-- Input sin mat-form-field -->
+            <input type="file" (change)="onAttachmentChange($event)" accept=".xlsx, .xls" />
+          </mat-card-content>
+        </mat-card>
+
+        <div class="btn-container">
+          <button mat-raised-button color="accent" (click)="sendEmails()">Enviar Correos</button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

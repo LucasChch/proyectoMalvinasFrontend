@@ -10,8 +10,8 @@ export class EmailService {
 
   constructor(private http: HttpClient) {}
 
-  sendEmail(emails: string[], subject: string, message: string): Observable<any> {
-    console.log(emails, subject, message);
-    return this.http.post(`${this.apiUrl}/send-email`, { emails, subject, message });
+  sendEmail(formData: FormData): Observable<any> {
+    console.log(formData);
+    return this.http.post(`${this.apiUrl}/send-email`, formData);
   }
 }

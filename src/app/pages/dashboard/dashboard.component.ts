@@ -13,9 +13,10 @@ export class DashboardComponent {
   selectAll: boolean = false;
   subject: string = '';
   message: string = '';
-  displayedColumns: string[] = ['select', 'email']; // Agrega más columnas según tu necesidad
+  displayedColumns: string[] = ['select', 'name', 'email', 'organism'];
+  pdfAttachment: File | null = null;
 
-  constructor(private emailService: EmailService, private router: Router) {}
+  constructor(private emailService: EmailService, private router: Router) { }
 
   handleFileUpload(records: any[]) {
     this.records = records;
@@ -25,17 +26,31 @@ export class DashboardComponent {
     this.records.forEach(record => record.selected = this.selectAll);
   }
 
+  onAttachmentChange(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      this.pdfAttachment = event.target.files[0];
+    }
+  }
+
   sendEmails() {
     const selectedEmails = this.records
       .filter(record => record.selected)
       .map(record => record['CORREO ELECTRONICO']);
-    
+
     if (!selectedEmails.length) {
       alert('Seleccione al menos un registro para enviar correo');
       return;
     }
-    
-    this.emailService.sendEmail(selectedEmails, this.subject, this.message)
+    // Crear FormData para enviar archivos junto con el resto de los datos
+    const formData = new FormData();
+    formData.append('emails', JSON.stringify(selectedEmails));
+    formData.append('subject', this.subject);
+    formData.append('message', this.message);
+    if (this.pdfAttachment) {
+      formData.append('attachment', this.pdfAttachment, this.pdfAttachment.name);
+    } 
+
+    this.emailService.sendEmail(formData)
       .subscribe(
         response => {
           alert('Correos enviados exitosamente');
