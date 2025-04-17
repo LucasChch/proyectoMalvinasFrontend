@@ -56,20 +56,29 @@
         </mat-form-field>
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Mensaje</mat-label>
-          <textarea matInput [(ngModel)]="message"></textarea>
+          <textarea matInput [(ngModel)]="messageTemplate"
+            placeholder="Escribe tu mensaje... Usa {{'{{nombre}}'}} para insertar el nombre"></textarea>
         </mat-form-field>
 
         <!-- Input para seleccionar el archivo PDF -->
         <mat-card>
-          <mat-card-title>Importar Archivo Excel</mat-card-title>
+          <mat-card-title>Importar Archivo PDF</mat-card-title>
           <mat-card-content>
             <!-- Input sin mat-form-field -->
-            <input type="file" (change)="onAttachmentChange($event)" accept=".xlsx, .xls" />
+            <input type="file" (change)="onAttachmentChange($event)" accept=".pdf" />
           </mat-card-content>
         </mat-card>
 
+        <!-- Barra de progreso -->
+        <div *ngIf="isSending" class="progress-container">
+          <mat-progress-bar mode="determinate" [value]="progressValue"></mat-progress-bar>
+          <p>Enviando {{ sentCount }} de {{ totalEmails }} correos…</p>
+        </div>
+
         <div class="btn-container">
-          <button mat-raised-button color="accent" (click)="sendEmails()">Enviar Correos</button>
+          <button mat-raised-button color="accent" (click)="sendEmails()" [disabled]="isSending">
+            {{ isSending ? 'Enviando…' : 'Enviar Correos' }}
+          </button>
         </div>
       </div>
     </mat-card>
