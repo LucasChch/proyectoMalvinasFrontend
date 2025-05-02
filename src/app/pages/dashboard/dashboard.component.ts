@@ -105,4 +105,13 @@ export class DashboardComponent {
     // Redirige al login
     this.router.navigate(['/']);
   }
+
+  get isCompleted(): boolean {
+    return this.progressValue >= 100;
+  }
+  
+  refrescarPagina(): void {
+    window.location.reload();
+  }
+  
 }

@@ -1,48 +1,64 @@
 .dashboard-container {
+  font-family: 'Roboto', sans-serif;
 
-  /* Barra de herramientas en azul oscuro */
   .mat-toolbar {
-    background-color: #002868;
-    color: #ffffff;
+    background: linear-gradient(135deg, #002868, #0056b3);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
   .spacer {
     flex: 1 1 auto;
   }
 
-  /* Contenido con fondo gris muy claro para resaltar las tarjetas */
   .content {
-    padding: 2rem;
-    background: #f7f7f7;
-    min-height: calc(100vh - 64px);
+    padding: 1.5rem;
+    background: rgba(240, 240, 240, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   }
 
-  /* Tarjetas blancas con sombra y bordes redondeados */
   mat-card {
     margin-bottom: 2rem;
-    border-radius: 8px;
-    padding: 1.5rem;
-    background: #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
-  /* Estilos para la tabla de registros */
   table {
     width: 100%;
-    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
-  /* Formulario para enviar correos */
+  th.mat-header-cell,
+  td.mat-cell {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  th.mat-header-cell {
+    background-color: #f7f7f7;
+    color: #333;
+  }
+
   .email-form {
     mat-form-field {
       width: 100%;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    /* Botón con acento amarillo y texto en azul oscuro */
     button {
-      background-color: #ffcc00;
-      color: #002868;
+      background-color: #3b9c9c;
+      color: #fff;
+      border-radius: 30px;
+      font-weight: 500;
+
+      &:hover {
+        background-color: darken(#3b9c9c, 10%);
+      }
     }
   }
 
@@ -50,8 +66,90 @@
     margin: 1rem 0;
 
     p {
-      margin: 0.5rem 0 0;
-      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      color: #333;
+    }
+
+    .success-msg {
+      color: #4caf50;
+      font-weight: 500;
+    }
+
+    .mat-progress-bar.completed .mat-progress-bar-fill::after {
+      background-color: #4caf50 !important;
+    }
+  }
+
+  .btn-container {
+    display: flex;
+    gap: 1rem; // Espaciado entre los botones
+    margin-top: 1.5rem;
+    flex-wrap: wrap; // Asegura que los botones no se desborden
+
+    button {
+      border-radius: 30px; // Bordes redondeados
+      font-weight: 500;
+      text-transform: none; // Para mantener el texto sin cambios de capitalización
+
+      &.mat-raised-button {
+        height: auto; // Evita que el botón se deforme al mantener el tamaño estándar
+      }
+
+      &.volver-btn {
+        background-color: #f44336;  // Color rojo
+        color: #fff;
+
+        &:hover {
+          background-color: #d32f2f;  // Rojo oscuro cuando se pasa el mouse
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .content {
+      padding: 1rem;
+    }
+
+    mat-form-field,
+    button {
+      width: 100%;
+    }
+
+    .btn-container {
+      flex-direction: column;
+      align-items: stretch;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .header-icon-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+
+    mat-icon {
+      font-size: 20px;
+      height: 20px;
+      width: 20px;
+      vertical-align: middle;
+    }
+  }
+
+  .toolbar-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    mat-icon {
+      font-size: 22px;
+      height: 22px;
+      width: 22px;
     }
   }
 }

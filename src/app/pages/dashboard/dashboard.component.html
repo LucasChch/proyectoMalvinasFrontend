@@ -1,86 +1,129 @@
 <div class="dashboard-container">
   <mat-toolbar color="primary">
-    <span>Dashboard</span>
+    <span class="toolbar-title">
+      <mat-icon>dashboard</mat-icon>
+      Dashboard
+    </span>
     <span class="spacer"></span>
-    <button mat-button (click)="logout()">Cerrar Sesión</button>
+    <button mat-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Cerrar Sesión
+    </button>
   </mat-toolbar>
 
-
   <div class="content">
-    <!-- Componente para importar el archivo -->
+    <!-- Componente para importar archivo -->
     <app-file-upload (fileUploaded)="handleFileUpload($event)"></app-file-upload>
 
-    <!-- Mostrar la tabla si existen registros -->
+    <!-- Mostrar tabla si existen registros -->
     <mat-card *ngIf="records.length">
-      <mat-card-title>Registros Importados</mat-card-title>
+      <mat-card-title>
+        <span class="header-icon-label">
+          <mat-icon>table_chart</mat-icon>
+          Registros Importados
+        </span>
+      </mat-card-title>
 
-      <table mat-table [dataSource]="records" class="mat-elevation-z8">
+      <div class="table-wrapper">
+        <table mat-table [dataSource]="records" class="mat-elevation-z8">
 
-        <!-- Columna de Selección -->
-        <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox [(ngModel)]="selectAll" (change)="toggleSelectAll()"></mat-checkbox>
-          </th>
-          <td mat-cell *matCellDef="let record">
-            <mat-checkbox [(ngModel)]="record.selected"></mat-checkbox>
-          </td>
-        </ng-container>
-        <!-- Columna de Apellido y Nombre -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Apellido y Nombre</th>
-          <td mat-cell *matCellDef="let record"> {{ record['APELLIDO Y NOMBRE'] }} </td>
-        </ng-container>
-        <!-- Columna de Correo Electrónico -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef>Correo Electrónico</th>
-          <td mat-cell *matCellDef="let record"> {{ record['CORREO ELECTRONICO'] }} </td>
-        </ng-container>
+          <!-- Columna selección -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox color="primary" [(ngModel)]="selectAll" (change)="toggleSelectAll()"></mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let record">
+              <mat-checkbox color="primary" [(ngModel)]="record.selected"></mat-checkbox>
+            </td>
+          </ng-container>
 
-        <!-- Columna de Provincia y organismo -->
-        <ng-container matColumnDef="organism">
-          <th mat-header-cell *matHeaderCellDef>Provincia / Organismo</th>
-          <td mat-cell *matCellDef="let record"> {{ record['PROVINCIA / ORGANISMO'] }} </td>
-        </ng-container>
+          <!-- Apellido y Nombre -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>
+              <span class="header-icon-label">
+                <mat-icon>person</mat-icon>
+                Apellido y Nombre
+              </span>
+            </th>
+            <td mat-cell *matCellDef="let record">{{ record['APELLIDO Y NOMBRE'] }}</td>
+          </ng-container>
 
-        <!-- Agregá más columnas según lo requiera el Excel -->
+          <!-- Email -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>
+              <span class="header-icon-label">
+                <mat-icon>email</mat-icon>
+                Correo Electrónico
+              </span>
+            </th>
+            <td mat-cell *matCellDef="let record">{{ record['CORREO ELECTRONICO'] }}</td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+          <!-- Organismo -->
+          <ng-container matColumnDef="organism">
+            <th mat-header-cell *matHeaderCellDef>
+              <span class="header-icon-label">
+                <mat-icon>domain</mat-icon>
+                Provincia / Organismo
+              </span>
+            </th>
+            <td mat-cell *matCellDef="let record">{{ record['PROVINCIA / ORGANISMO'] }}</td>
+          </ng-container>
 
-      <!-- Formulario para enviar correos -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+
+      <br>
+      <!-- Formulario envío -->
       <div class="email-form">
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="fill">
           <mat-label>Asunto</mat-label>
-          <input matInput [(ngModel)]="subject" />
+          <input matInput [(ngModel)]="subject" placeholder="Escribe el asunto del correo" />
+
         </mat-form-field>
-        <mat-form-field appearance="fill" class="full-width">
+
+        <mat-form-field appearance="fill">
           <mat-label>Mensaje</mat-label>
           <textarea matInput [(ngModel)]="messageTemplate"
             placeholder="Escribe tu mensaje... Usa {{'{{nombre}}'}} para insertar el nombre"></textarea>
         </mat-form-field>
 
-        <!-- Input para seleccionar el archivo PDF -->
+        <!-- Cargar PDF -->
         <mat-card>
-          <mat-card-title>Importar Archivo PDF</mat-card-title>
+          <mat-card-title>
+            <span class="header-icon-label">
+              <mat-icon>picture_as_pdf</mat-icon>
+              Importar Archivo PDF
+            </span>
+          </mat-card-title>
           <mat-card-content>
-            <!-- Input sin mat-form-field -->
             <input type="file" (change)="onAttachmentChange($event)" accept=".pdf" />
           </mat-card-content>
         </mat-card>
 
         <!-- Barra de progreso -->
-        <div *ngIf="isSending" class="progress-container">
-          <mat-progress-bar mode="determinate" [value]="progressValue"></mat-progress-bar>
-          <p>Enviando {{ sentCount }} de {{ totalEmails }} correos…</p>
+        <div *ngIf="isSending || isCompleted" class="progress-container">
+          <mat-progress-bar [value]="progressValue" mode="determinate"
+            [ngClass]="{ 'completed': isCompleted }"></mat-progress-bar>
+
+          <p *ngIf="!isCompleted">Enviando {{ sentCount }} de {{ totalEmails }} correos…</p>
+          <p *ngIf="isCompleted" class="success-msg">✔️ ¡Todos los correos fueron enviados!</p>
         </div>
 
+        <!-- Botón enviar -->
         <div class="btn-container">
-          <button mat-raised-button color="accent" (click)="sendEmails()" [disabled]="isSending">
-            {{ isSending ? 'Enviando…' : 'Enviar Correos' }}
+          <!-- Botón Enviar Correos -->
+          <button mat-raised-button color="primary" (click)="sendEmails()">
+            Enviar Correos
+          </button>
+
+          <!-- Botón Volver (Rojo) -->
+          <button mat-raised-button class="volver-btn" (click)="refrescarPagina()">
+            <mat-icon>arrow_back</mat-icon>
+            Volver
           </button>
         </div>
+
       </div>
-    </mat-card>
-  </div>
-</div>
