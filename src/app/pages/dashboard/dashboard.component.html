@@ -16,9 +16,9 @@
     <app-file-upload (fileUploaded)="handleFileUpload($event)"></app-file-upload>    <!-- Mostrar tabla si existen registros -->
     <mat-card *ngIf="records.length">
       <mat-card-title>
-        <span class="header-icon-label">
-          <mat-icon>table_chart</mat-icon>
-          Registros Importados ({{ totalRecords }} total)
+        <span class="header-icon-label registros-importados-title">
+          <mat-icon color="primary">table_chart</mat-icon>
+          Registros Importados <span style="font-weight:400;">({{ totalRecords }} total)</span>
         </span>
       </mat-card-title>
 
@@ -118,29 +118,39 @@
 
       <br>
       <!-- Formulario envío -->
+      <mat-card-title>
+        <span class="header-icon-label" style="font-size:1.1rem;font-weight:600;color:#1976d2;">
+          <mat-icon color="primary">mail</mat-icon>
+          Envío de Correos
+        </span>
+      </mat-card-title>
       <div class="email-form">
-        <mat-form-field appearance="fill">
-          <mat-label>Asunto</mat-label>
+        <mat-form-field appearance="outline" class="custom-form-field">
+          <mat-label><mat-icon color="primary">subject</mat-icon> Asunto</mat-label>
           <input matInput [(ngModel)]="subject" placeholder="Escribe el asunto del correo" />
-
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Mensaje</mat-label>
-          <textarea matInput [(ngModel)]="messageTemplate"
+        <mat-form-field appearance="outline" class="custom-form-field">
+          <mat-label><mat-icon color="primary">edit</mat-icon> Mensaje</mat-label>
+          <textarea matInput [(ngModel)]="messageTemplate" rows="5"
             placeholder="Escribe tu mensaje... Usa {{'{{nombre}}'}} para insertar el nombre"></textarea>
         </mat-form-field>
 
         <!-- Cargar PDF -->
         <mat-card>
           <mat-card-title>
-            <span class="header-icon-label">
-              <mat-icon>picture_as_pdf</mat-icon>
+            <span class="header-icon-label" style="font-size:1.1rem;font-weight:600;color:#b71c1c;">
+              <mat-icon color="warn">picture_as_pdf</mat-icon>
               Importar Archivo PDF
             </span>
           </mat-card-title>
           <mat-card-content>
-            <input type="file" (change)="onAttachmentChange($event)" accept=".pdf" />
+            <input #pdfInput type="file" (change)="onAttachmentChange($event)" accept=".pdf" hidden />
+            <button mat-raised-button color="warn" (click)="pdfInput.click()">
+              <mat-icon>upload</mat-icon>
+              Seleccionar archivo PDF
+            </button>
+            <span class="file-upload-filename" *ngIf="pdfInput.value">{{ pdfInput.value.split('\\').pop() }}</span>
           </mat-card-content>
         </mat-card>
 
@@ -168,3 +178,6 @@
         </div>
 
       </div>
+    </mat-card>
+  </div>
+</div>

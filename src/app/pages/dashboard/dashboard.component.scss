@@ -231,4 +231,74 @@
       }
     }
   }
+
+  .file-upload-filename {
+    margin-left: 1rem;
+    color: #555;
+    font-size: 0.95rem;
+    font-style: italic;
+  }
+
+  button[mat-raised-button] {
+    font-weight: 500;
+    text-transform: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .custom-form-field {
+    width: 100%;
+    margin-bottom: 1.5rem;
+
+    mat-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: #002868;
+      font-size: 1.1rem;
+    }
+
+    mat-icon {
+      font-size: 20px;
+      vertical-align: middle;
+    }
+
+    textarea[matInput] {
+      min-height: 120px;
+      resize: vertical;
+      font-size: 1rem;
+    }
+  }
+
+  // Estilo específico para el encabezado de envío de correos
+  .header-icon-label[style*='color:#1976d2'] {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1976d2;
+    margin-bottom: 1rem;
+  }
+
+  .registros-importados-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #002868;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    mat-icon {
+      font-size: 26px;
+      color: #002868;
+    }
+
+    span {
+      font-size: 1rem;
+      color: #1976d2;
+      font-weight: 500;
+      margin-left: 0.5rem;
+    }
+  }
 }

@@ -9,17 +9,47 @@ import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-file-upload',
   template: `
-    <mat-card>
-      <mat-card-title>Importar Archivo Excel</mat-card-title>
+    <mat-card class="file-upload-card">
+      <mat-card-title>
+        <span class="file-upload-title">
+          <mat-icon color="primary">upload_file</mat-icon>
+          <span>Importar Archivo Excel</span>
+        </span>
+      </mat-card-title>
       <mat-card-content>
-      <input #fileInput type="file" (change)="onFileChange($event, fileInput)" accept=".xlsx, .xls" />
+        <input #fileInput type="file" (change)="onFileChange($event, fileInput)" accept=".xlsx, .xls" hidden />
+        <button mat-raised-button color="primary" (click)="fileInput.click()">
+          <mat-icon>upload</mat-icon>
+          Seleccionar archivo Excel
+        </button>
+        <span class="file-upload-filename" *ngIf="fileInput.value">{{ fileInput.value.split('\\').pop() }}</span>
       </mat-card-content>  
     </mat-card>  
   `,
   styles: [`
-    mat-card {
+    .file-upload-card {
       margin-bottom: 20px;
-    }  
+      padding-bottom: 10px;
+    }
+    .file-upload-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #002868;
+    }
+    button[mat-raised-button] {
+      margin-top: 10px;
+      margin-bottom: 5px;
+      font-weight: 500;
+      text-transform: none;
+    }
+    .file-upload-filename {
+      margin-left: 1rem;
+      color: #555;
+      font-size: 0.95rem;
+    }
   `]
 })
 export class FileUploadComponent {
