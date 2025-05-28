@@ -11,6 +11,7 @@ import { firstValueFrom } from 'rxjs';
 })
 export class DashboardComponent {
   records: any[] = [];
+  paginatedRecords: any[] = [];
   selectAll: boolean = false;
   subject: string = '';
   messageTemplate: string = '';
@@ -24,15 +25,57 @@ export class DashboardComponent {
 
   // Tamaño de cada lote
   readonly BATCH_SIZE = 2;
+  // Propiedades para paginación
+  currentPage: number = 1;
+  recordsPerPage: number = 20;
+  totalPages: number = 0;
+  totalRecords: number = 0;
+
+  // Exponer Math para usar en el template
+  Math = Math;
 
   constructor(private emailService: EmailService, private router: Router) { }
-
   handleFileUpload(records: any[]) {
     this.records = records;
+    this.totalRecords = records.length;
+    this.calculateTotalPages();
+    this.updatePaginatedRecords();
   }
 
+  calculateTotalPages() {
+    this.totalPages = Math.ceil(this.totalRecords / this.recordsPerPage);
+  }
+
+  updatePaginatedRecords() {
+    const startIndex = (this.currentPage - 1) * this.recordsPerPage;
+    const endIndex = startIndex + this.recordsPerPage;
+    this.paginatedRecords = this.records.slice(startIndex, endIndex);
+    this.selectAll = false;
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePaginatedRecords();
+    }
+  }
+
+  nextPage() {
+    this.goToPage(this.currentPage + 1);
+  }
+
+  previousPage() {
+    this.goToPage(this.currentPage - 1);
+  }
+
+  changeRecordsPerPage(newSize: number) {
+    this.recordsPerPage = newSize;
+    this.currentPage = 1;
+    this.calculateTotalPages();
+    this.updatePaginatedRecords();
+  }
   toggleSelectAll() {
-    this.records.forEach(record => record.selected = this.selectAll);
+    this.paginatedRecords.forEach(record => record.selected = this.selectAll);
   }
 
   onAttachmentChange(event: any) {

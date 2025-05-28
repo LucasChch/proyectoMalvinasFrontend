@@ -20,6 +20,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -38,11 +39,11 @@ import { MatIconModule } from '@angular/material/icon';
     MatCardModule,
     MatTableModule,
     MatToolbarModule,
-    MatFormFieldModule,
-    MatCheckboxModule,
+    MatFormFieldModule,    MatCheckboxModule,
     FormsModule,
     MatProgressBarModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -13,19 +13,45 @@
 
   <div class="content">
     <!-- Componente para importar archivo -->
-    <app-file-upload (fileUploaded)="handleFileUpload($event)"></app-file-upload>
-
-    <!-- Mostrar tabla si existen registros -->
+    <app-file-upload (fileUploaded)="handleFileUpload($event)"></app-file-upload>    <!-- Mostrar tabla si existen registros -->
     <mat-card *ngIf="records.length">
       <mat-card-title>
         <span class="header-icon-label">
           <mat-icon>table_chart</mat-icon>
-          Registros Importados
+          Registros Importados ({{ totalRecords }} total)
         </span>
       </mat-card-title>
 
+      <!-- Controles de paginación superior -->
+      <div class="pagination-controls">
+        <mat-form-field appearance="outline" style="width: 120px;">
+          <mat-label>Registros por página</mat-label>
+          <mat-select [value]="recordsPerPage" (selectionChange)="changeRecordsPerPage($event.value)">
+            <mat-option [value]="10">10</mat-option>
+            <mat-option [value]="20">20</mat-option>
+            <mat-option [value]="50">50</mat-option>
+            <mat-option [value]="100">100</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="pagination-info">
+          Página {{ currentPage }} de {{ totalPages }} 
+          (Mostrando {{ (currentPage - 1) * recordsPerPage + 1 }} - 
+          {{ Math.min(currentPage * recordsPerPage, totalRecords) }} de {{ totalRecords }})
+        </div>
+
+        <div class="pagination-buttons">
+          <button mat-icon-button [disabled]="currentPage === 1" (click)="previousPage()">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <button mat-icon-button [disabled]="currentPage === totalPages" (click)="nextPage()">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </div>
+
       <div class="table-wrapper">
-        <table mat-table [dataSource]="records" class="mat-elevation-z8">
+        <table mat-table [dataSource]="paginatedRecords" class="mat-elevation-z8">
 
           <!-- Columna selección -->
           <ng-container matColumnDef="select">
@@ -68,11 +94,26 @@
               </span>
             </th>
             <td mat-cell *matCellDef="let record">{{ record['PROVINCIA / ORGANISMO'] }}</td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          </ng-container>          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+      </div>
+
+      <!-- Controles de paginación inferior -->
+      <div class="pagination-controls bottom">
+        <div class="pagination-info">
+          Página {{ currentPage }} de {{ totalPages }}
+        </div>
+
+        <div class="pagination-buttons">
+          <button mat-icon-button [disabled]="currentPage === 1" (click)="previousPage()">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <span class="page-indicator">{{ currentPage }} / {{ totalPages }}</span>
+          <button mat-icon-button [disabled]="currentPage === totalPages" (click)="nextPage()">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
       </div>
 
       <br>
